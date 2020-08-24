@@ -1,0 +1,40 @@
+- hosts: all
+  tasks:
+  - name: install httpd package
+    package:
+            name: httpd
+            state: present
+    when: ansible_distribution== "RedHat"
+    register: x
+    tags:
+    - install
+ 
+  - name: document root dir
+    file:
+            state: directory
+            dest: /var/www/soham
+    register: directory_state
+    tags:
+    - directory
+
+  - name: conf webserver
+    template:
+            dest: /etc/httpd/conf.d/soham.conf
+            src: template/localconf.conf.j2
+    notify:
+    - service starting        
+    tags:
+    - conf        
+
+  - name: copy web pages
+    copy:
+            dest: /var/www/soham
+            src: home.html        
+    tags:
+    - copy
+
+  handlers:    
+  - name: service starting
+    service:
+            name: httpd
+            state: restarted    
