@@ -1,0 +1,6 @@
+---
+# vars file for webserver
+
+dcdir: "/var/www/soham"
+httpport: 81
+

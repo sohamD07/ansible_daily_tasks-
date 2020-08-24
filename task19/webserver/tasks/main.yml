@@ -1,0 +1,37 @@
+---
+# tasks file for webserver
+- name: install httpd package
+  package:
+      name: "httpd"
+      state: present
+  when: ansible_distribution == "RedHat"
+  register: x
+
+- name: document root dir
+  file:
+      state: directory
+      dest:  "{{ dcdir }}"
+  register: y
+  tags: web
+
+- name: conf web server
+  template:
+     dest: /etc/httpd/conf.d/soham.conf
+     src: templates/localconf.conf.j2
+  when: x.rc == 0
+  tags: webconf
+  notify: service httpd
+
+
+- name: copy web page from url
+  get_url:
+      dest: "{{ dcdir }}"
+      url: "https://raw.githubusercontent.com/vimallinuxworld13/devopsal1/master/index.html"
+  when: y.failed ==  false
+  tags: webgit
+
+- name: start service for web
+  service:
+      name: "httpd"
+      state: started
+
