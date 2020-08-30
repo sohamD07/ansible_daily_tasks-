@@ -1,0 +1,10 @@
+- hosts: web
+  remote_user: root
+  roles:
+    - targetserver
+
+- hosts: lb
+  remote_user: root
+  roles:
+    - lbserver
+      

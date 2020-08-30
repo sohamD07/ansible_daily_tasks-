@@ -1,0 +1,9 @@
+[lb]
+192.168.43.218 ansible_ssh_user=root ansible_ssh_pass=root
+
+[web]
+192.168.43.242 ansible_ssh_user=root ansible_ssh_pass=root
+192.168.43.73 ansible_ssh_user=root ansible_ssh_pass=root
+
+
+
